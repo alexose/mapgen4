@@ -19,6 +19,8 @@
     },
     "scripts": {
         "build": "browserify mapgen4.js -g uglifyify -o build/_bundle.js",
-        "watch": "budo mapgen4:build/_bundle.js --dir . --live --onupdate 'npm run build'"
+        "build-game": "browserify game.js -g uglifyify -o build/_bundle_game.js",
+        "watch": "budo mapgen4:build/_bundle.js --dir . --live --onupdate 'npm run build'",
+        "watch-game": "budo game:build/_bundle_game.js --dir . --live --onupdate 'npm run build-game'"
     }
 }
