@@ -19,6 +19,7 @@ const WebWorkify  = require('webworkify');
 const MakeMesh    = require('./mesh');
 const Map         = require('./map');
 const Render      = require('./render');
+const Generator   = require('./generator');
 
 const initialParams = {
     elevation: [
@@ -61,6 +62,15 @@ const initialParams = {
     ],
 };
 
+// TODO: Decide where these params come from
+const elevationParams = {
+    seed: 187,
+    island: 0.5,
+    noisy_coastlines: 0.01,
+    hill_height: 0.02,
+    mountain_jagged: 0,
+    ocean_depth: 1.5,
+};
     
 /** @typedef { import("./types").Mesh } Mesh */
 
@@ -129,6 +139,10 @@ function main({mesh, peaks_t}) {
         }
     });
 
+    let heightMap = new Generator();
+    heightMap.setElevationParam(elevationParams);
+    heightMap.generate();
+
     function generate() {
         if (!working) {
             working = true;
@@ -136,7 +150,7 @@ function main({mesh, peaks_t}) {
                 param,
                 constraints: {
                     size: 128,
-                    constraints: new Float32Array(128 * 128),
+                    constraints: heightMap.elevation, 
                 },
                 quad_elements_buffer: render.quad_elements.buffer,
                 a_quad_em_buffer: render.a_quad_em.buffer,

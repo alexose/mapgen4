@@ -196,6 +196,7 @@ function main({mesh, peaks_t}) {
         if (!working) {
             working = true;
             Painting.setElevationParam(param.elevation);
+            console.log(param.elevation);
             updateUI();
             worker.postMessage({
                 param,
